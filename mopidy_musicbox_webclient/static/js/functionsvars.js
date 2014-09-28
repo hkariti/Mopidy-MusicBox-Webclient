@@ -146,11 +146,19 @@ function albumTracksToTable(pl, target, uri) {
 
 function renderSongLi(song, liID, uri, playlistType){
     var name;
+    var artist;
     if (!song.name || song.name == '') {
-	name = uri.split('/');
-	name = decodeURI(name[name.length - 1]);
+        name = uri.split('/');
+        name = decodeURI(name[name.length - 1]);
     } else {
-	name = song.name;
+        name = song.name;
+        if (song.artists && song.artists.length > 0) {
+            artist = song.artists[0].name;
+        }
+    }
+    var title = name;
+    if (artist) {
+        title = artist + ' - ' + name;
     }
 //    var iconClass = getMediaClass(liID.split('-')[1]);
     songLi = '<li class="song albumli" id="' + liID + '">' +
@@ -158,7 +166,7 @@ function renderSongLi(song, liID, uri, playlistType){
         '<i class="fa fa-ellipsis-v"></i>' +
         '</a>' +'<a href="#" onclick="return ' + playlistType + '(\'' + song.uri + '\',\'' + uri + '\');">' +
 //        '<h1 class="trackname"><i class="' + iconClass + '"></i> ' + name + '</h1>' +
-        '<h1 class="trackname">' + name + '</h1>' +
+        '<h1 class="trackname">' + title + '</h1>' +
         '</a>' +
 
         '</li>';
