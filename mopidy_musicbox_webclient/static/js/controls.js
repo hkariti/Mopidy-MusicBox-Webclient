@@ -58,10 +58,10 @@ function playBrowsedTracks(addtoqueue, trackid) {
  *********************************************************/
 function playTrack(addtoqueue) {
     //stop directly, for user feedback
-    if (!addtoqueue) {
-        mopidy.playback.stop(true);
-        mopidy.tracklist.clear();
-    }
+    //if (!addtoqueue) {
+    //    mopidy.playback.stop(true);
+    //    mopidy.tracklist.clear();
+    //}
     $('#popupTracks').popup('close');
     $('#controlspopup').popup('close');
     toast('Loading...');
@@ -119,17 +119,17 @@ function playTrack(addtoqueue) {
 //	}
 //    }, 2500);
 
-    if (!addtoqueue) { 
-	for (var i = 0; i <= selected; i++) {
-        	mopidy.playback.next();
-	}
-        mopidy.playback.play(); //tracks[selected]);
-    }
+//    if (!addtoqueue) { 
+//	for (var i = 0; i <= selected; i++) {
+//        	mopidy.playback.next();
+//	}
+//        mopidy.playback.play(); //tracks[selected]);
+//    }
 
-    mopidy.tracklist.add(tracks.slice(0, selected), 0);
-    if (selected < tracks.length) {
-    	mopidy.tracklist.add(tracks.slice(selected + 1) );
-    }
+    //mopidy.tracklist.add(tracks.slice(0, selected), 0);
+    //if (selected < tracks.length) {
+    //	mopidy.tracklist.add(tracks.slice(selected + 1) );
+    //}
      
     //console.log(selected);
     return false;
