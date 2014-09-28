@@ -117,7 +117,7 @@ function getArtist(pl) {
 function getAlbum(pl) {
     for (var i = 0; i < pl.length; i++) {
         if (pl[i].album.name != '') {
-            return pl[i].album.name;
+            return pl[i].album;
         }
     };
 }
@@ -280,7 +280,7 @@ function resultsToTables(results, target, uri) {
                 }
                 ;
                 artistname = results[i].artists[0].name;
-                getCover(artistname, results[i].album.name, target + '-cover-' + i, 'small');
+                getCover(artistname, results[i].album, target + '-cover-' + i, 'small');
                 //            customTracklists[results[i].album.uri] = newalbum;
                 newalbum = [];
             } //newalbum length
@@ -480,3 +480,10 @@ function getMediaHuman(uri) {
     return '';
 }
 
+function getCover(artistname, album, image, size) {
+    if (album.images) {
+        $(image).attr('src', album.images[0]);
+    } else {
+        getLastFMCover(artistname, album.name, image, size);
+    }
+}

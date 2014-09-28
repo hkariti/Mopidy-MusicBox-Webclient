@@ -117,7 +117,7 @@ function setSongInfo(data) {
 
     if (data.album && data.album.name) {
         $("#modalalbum").html('<a href="#" onclick="return showAlbum(\'' + data.album.uri + '\');">' + data.album.name + '</a>');
-        getCover(artiststext, data.album.name, '#infocover, #controlspopupimage', 'extralarge');
+        getCover(artiststext, data.album, '#infocover, #controlspopupimage', 'extralarge');
     } else {
 	$("#modalalbum").html('');
 	$("#infocover").attr('src', 'images/default_cover.png');

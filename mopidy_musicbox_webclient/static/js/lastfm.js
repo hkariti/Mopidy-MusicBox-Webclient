@@ -21,7 +21,7 @@ $(window).load(function() {
 });
 
 
-function getCover(nwartist, nwalbum, image, size) {
+function getLastFMCover(nwartist, nwalbum, image, size) {
         var defUrl = 'images/default_cover.png';
         lastfm.album.getInfo({artist: nwartist, album: nwalbum}, {success: function(data){
             for (var i = 0; i < data.album.image.length; i++) {
