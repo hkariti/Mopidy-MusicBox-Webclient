@@ -88,19 +88,36 @@ function playTrack(addtoqueue) {
         }
     }
 
-//switch popup options
+//switch easy popup options
     switch (addtoqueue) {
-        case ADD_THIS_BOTTOM:
-            mopidy.tracklist.add(tracks.slice(selected, selected + 1));
-            return false;
         case PLAY_NEXT:
             mopidy.tracklist.add(tracks.slice(selected, selected + 1), playing + 1);
             return false;
+        case PLAY_ALL_NEXT:
+            mopidy.tracklist.add(tracks, playing + 1);
+            return false;
+
         case ADD_ALL_BOTTOM:
             mopidy.tracklist.add(tracks);
             return false;
     }
 
+    if (addtoqueue == REPLACE_PLAY || addtoqueue == REPLACE_ALL_PLAY) {
+            mopidy.tracklist.clear().done(function () {
+                if (addtoqueue == REPLACE_PLAY) {
+                    tracks_to_add = [ tracks[selected] ];
+                } else {
+                    tracks_to_add = tracks;
+                }
+                mopidy.tracklist.add(tracks_to_add).done(function (tracklist) {
+                    if (!tracklist) {
+                        return;
+                    }
+                    mopidy.playback.play(tracklist[0]);
+                })
+            });
+            return false;
+    }
 //normal    
 //    mopidy.tracklist.add(tracks);
 

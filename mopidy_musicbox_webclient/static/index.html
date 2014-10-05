@@ -151,18 +151,21 @@
                                     <span id="popupTrackName"></span>
                                     </li>
             -->
-            <li>
-                <a href="#" onclick="return playTrack();">Play <span class="popupTrackName"></span></a>
-            </li>
             <li class="addqueue">
                 <a href="#" onclick="return playTrack(PLAY_NEXT);">Play Track Next</a>
             </li>
             <li class="addqueue">
-                <a href="#" onclick="return playTrack(ADD_THIS_BOTTOM);">Add Track to Bottom of Queue</a>
+                <a href="#" onclick="return playTrack(REPLACE_PLAY);">Replace and Play</a>
+            </li>
+            <li class="addqueue">
+                <a href="#" onclick="return playTrack(PLAY_ALL_NEXT);">Play All Next</a>
             </li>
             <li class="addqueue">
                 <a href="#" onclick="return playTrack(ADD_ALL_BOTTOM);" id="liaddtobottom">Add all to Bottom of
                     Queue</a>
+            </li>
+            <li class="addqueue">
+                <a href="#" onclick="return playTrack(REPLACE_ALL_PLAY);">Replace and Play All</a>
             </li>
             <li>
                 <a href="#" onclick="showAlbumPopup()">Show Album <span class="popupAlbumName"></span></a>
