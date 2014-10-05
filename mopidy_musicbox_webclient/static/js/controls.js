@@ -164,14 +164,18 @@ function playTrackByUri(uri, playlisturi){
         }
     }
 
-//find track that is playing
-    for (var playing = 0; playing < currentplaylist.length; playing++) {
-        if (currentplaylist[playing].uri == songdata.uri) {
-            break;
-        }
-    }
 
-    mopidy.tracklist.add(tracks);
+    mopidy.tracklist.add([tracks[selected]]).done(function (added_tracks) {
+        if (!added_tracks) {
+            return;
+        }
+        mopidy.playback.getState().done(function (state) {
+            if (state == 'stopped') {
+                mopidy.playback.play(added_tracks[0]);
+            }
+        });
+    });
+
 
     //for (var i = 0; i <= selected; i++) {
     //    mopidy.playback.next();

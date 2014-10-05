@@ -442,7 +442,8 @@ $(document).ready(function(event) {
 //    console.log(wsLocation);
 //    $.getScript( wsLocation + '/mopidy/mopidy.min.js');
     mopidy = new Mopidy({
-        webSocketUrl: 'ws://' + wsLocation + '/mopidy/ws/' // wslocation is set in index.html "ws://localhost:6680/mopidy/ws/"
+        webSocketUrl: 'ws://' + wsLocation + '/mopidy/ws/', // wslocation is set in index.html "ws://localhost:6680/mopidy/ws/"
+        callingConvention: 'by-position-only'
     });
 //    mopidy.on(console.log.bind(console));  // Log all events
 //    mopidy.on(console.error.bind(console));
