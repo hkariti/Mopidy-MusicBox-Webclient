@@ -263,7 +263,7 @@ function removeTrack() {
         }
     }
     var track = {};
-    track.uri = currentplaylist[i].uri;
+    track.uri = [currentplaylist[i].uri];
     mopidy.tracklist.remove(track);
     console.log(currentplaylist[i].uri);
 }
