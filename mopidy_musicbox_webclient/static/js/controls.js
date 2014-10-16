@@ -247,6 +247,35 @@ function playTrackQueue() {
     return playTrackByUri(uri, playlisturi);
 }
 
+/***
+ * Plays a Playlist given an URI
+ * @param uri
+ * @returns {boolean}
+ */
+function playPlaylistByUri(playlisturi){
+
+    //this is deprecated, remove when popuptracks is removed completly
+    $('#popupTracks').popup('close');
+    $('#controlspopup').popup('close');
+    //end of deprecated
+
+    toast('Loading...');
+
+    var trackslist = new Array();
+    var track, tracksbefore, tracksafter;
+    var tracks = getTracksFromUri(playlisturi);
+
+    mopidy.tracklist.add(tracks);
+
+    //for (var i = 0; i <= selected; i++) {
+    //    mopidy.playback.next();
+    //}
+
+    //mopidy.playback.play(); //tracks[selected]);
+//    console.log(selected);
+    return false;
+}
+
 /********************************************************
  * remove a track from the queue
  *********************************************************/

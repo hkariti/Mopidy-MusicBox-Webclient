@@ -255,7 +255,7 @@ function resultsToTables(results, target, uri) {
 //                    iconClass = getMediaClass(results[i].album.uri);
                     iconClass = getMediaClass(newalbum[0].uri);
                     html += '<li class="albumdivider">';
-	            html += '<a href="#" onclick="return showAlbum(\'' + results[i].album.uri + '\');"><img id="' +
+	            html += '<a href="#" onclick="return playTrackByUri(null, \'' + results[i].album.uri + '\');"><img id="' +
     	                targetmin + '-cover-' + i + '" class="artistcover" width="30" height="30" /><h1><i class="' + iconClass + '"></i> ' + results[i].album.name + '</h1><p>';
 		}
 		if (results[i].album.artists) {
@@ -277,6 +277,8 @@ function resultsToTables(results, target, uri) {
                     //hERE!
                     var liID = targetmin + '-' + newalbum[j].uri;
                    html+= renderSongLi(newalbum[j], liID, uri, playlistType);
+                   if (!customTracklists[newalbum[j].album.uri]) { customTracklists[newalbum[j].album.uri] = [];}
+                   customTracklists[newalbum[j].album.uri].push(newalbum[j]);
 
                     //html += '<li class="albumli" id="' + targetmin + '-' + newalbum[j].uri + '"><a href="#" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[j].uri + '\');">';
                     //html += '<p class="pright">' + timeFromSeconds(newalbum[j].length / 1000) + '</p><h1>' + newalbum[j].name + '</h1></a></li>';
