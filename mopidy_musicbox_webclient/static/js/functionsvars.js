@@ -255,7 +255,7 @@ function resultsToTables(results, target, uri) {
 //                    iconClass = getMediaClass(results[i].album.uri);
                     iconClass = getMediaClass(newalbum[0].uri);
                     html += '<li class="albumdivider">';
-	            html += '<a href="#" onclick="return playTrackByUri(null, \'' + results[i].album.uri + '\');"><img id="' +
+	            html += '<a href="#" onclick="return playPlaylistByUri(\'' + results[i].album.uri + '\');"><img id="' +
     	                targetmin + '-cover-' + i + '" class="artistcover" width="30" height="30" /><h1><i class="' + iconClass + '"></i> ' + results[i].album.name + '</h1><p>';
 		}
 		if (results[i].album.artists) {
