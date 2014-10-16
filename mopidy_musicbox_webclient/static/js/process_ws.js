@@ -105,6 +105,7 @@ function processBrowseDir(resultArr) {
         iconClass = getMediaClass(resultArr[i].uri);
 	if(resultArr[i].type == 'track' ) {
 //	    console.log(resultArr[i]);
+	    popupData[resultArr[i].uri] = resultArr[i];
             child += '<li class="song" id="browselisttracks-' + resultArr[i].uri + '"><a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + 
                 undefined + '\',\'' + resultArr[i].uri + '\');"><i class="fa fa-ellipsis-v"></i></a>' +
                 '<a href="#" class="browsetrack" onclick="return playBrowsedTracks(0, this.id);" id="' + resultArr[i].uri + 
