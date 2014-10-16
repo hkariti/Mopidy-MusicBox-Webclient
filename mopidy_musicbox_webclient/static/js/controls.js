@@ -3,10 +3,11 @@
  *********************************************************/
 function playBrowsedTracks(addtoqueue, trackid) {
     //stop directly, for user feedback
-    if (!addtoqueue) {
-        mopidy.playback.stop(true);
-        mopidy.tracklist.clear();
-    }
+    //if (!addtoqueue) {
+    //    mopidy.playback.stop(true);
+    //    mopidy.tracklist.clear();
+    //}
+
     toast('Loading...');
 
     var selected = 0, counter = 0;
