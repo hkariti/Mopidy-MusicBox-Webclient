@@ -107,7 +107,7 @@ function processBrowseDir(resultArr) {
 //	    console.log(resultArr[i]);
         mopidy.library.lookup(resultArr[i].uri).done(function(tracks) {
             popupData[resultArr[i].uri] = tracks[0];
-        }
+        });
         child += '<li class="song" id="browselisttracks-' + resultArr[i].uri + '"><a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + 
             undefined + '\',\'' + resultArr[i].uri + '\');"><i class="fa fa-ellipsis-v"></i></a>' +
             '<a href="#" class="browsetrack" onclick="return playBrowsedTracks(0, this.id);" id="' + resultArr[i].uri + 
