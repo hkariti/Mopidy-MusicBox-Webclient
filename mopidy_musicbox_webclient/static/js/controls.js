@@ -28,12 +28,12 @@ function playBrowsedTracks(addtoqueue, trackid) {
     }
 
 //play selected item
-    if (!addtoqueue) { 
-	for (var i = 0; i <= selected; i++) {
-        	mopidy.playback.next();
-	}
-        mopidy.playback.play(); //tracks[selected]);
-    }
+    //if (!addtoqueue) { 
+	//for (var i = 0; i <= selected; i++) {
+    //    	mopidy.playback.next();
+	//}
+    //    mopidy.playback.play(); //tracks[selected]);
+    //}
 
     //add all items, but selected to the playlist
     selected = 0;
