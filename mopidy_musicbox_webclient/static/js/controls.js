@@ -22,7 +22,16 @@ function playBrowsedTracks(addtoqueue, trackid) {
     	    if (this.id == trackid) {
 		      selected = counter;
             }
-	      mopidy.tracklist.add(null, null, this.id);
+	      mopidy.tracklist.add(null, null, this.id).done(function (added_tracks) {
+            if (!added_tracks) {
+                return;
+            }
+            mopidy.playback.getState().done(function (state) {
+                if (state == 'stopped') {
+                    mopidy.playback.play(added_tracks[0]);
+                }
+            });
+        });
 	      counter++;
         } );
     }
