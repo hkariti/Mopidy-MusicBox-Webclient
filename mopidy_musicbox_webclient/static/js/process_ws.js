@@ -105,11 +105,13 @@ function processBrowseDir(resultArr) {
         iconClass = getMediaClass(resultArr[i].uri);
 	if(resultArr[i].type == 'track' ) {
 //	    console.log(resultArr[i]);
-	    popupData[resultArr[i].uri] = resultArr[i];
-            child += '<li class="song" id="browselisttracks-' + resultArr[i].uri + '"><a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + 
-                undefined + '\',\'' + resultArr[i].uri + '\');"><i class="fa fa-ellipsis-v"></i></a>' +
-                '<a href="#" class="browsetrack" onclick="return playBrowsedTracks(0, this.id);" id="' + resultArr[i].uri + 
-                '"><h1 class="trackname"><i class="' + iconClass + '"></i> ' + resultArr[i].name + '</h1></a></li>';
+        mopidy.library.lookup(resultArr[i].uri).done(function(tracks) {
+            popupData[resultArr[i].uri] = tracks[0];
+        }
+        child += '<li class="song" id="browselisttracks-' + resultArr[i].uri + '"><a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + 
+            undefined + '\',\'' + resultArr[i].uri + '\');"><i class="fa fa-ellipsis-v"></i></a>' +
+            '<a href="#" class="browsetrack" onclick="return playBrowsedTracks(0, this.id);" id="' + resultArr[i].uri + 
+            '"><h1 class="trackname"><i class="' + iconClass + '"></i> ' + resultArr[i].name + '</h1></a></li>';
 	} else {
             if (browseStack.length > 0) {
                 iconClass="fa fa-folder-o";
