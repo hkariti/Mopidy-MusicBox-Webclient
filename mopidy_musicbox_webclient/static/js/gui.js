@@ -116,7 +116,11 @@ function setSongInfo(data) {
     }
 
     if (data.album && data.album.name) {
-        $("#modalalbum").html('<a href="#" onclick="return showAlbum(\'' + data.album.uri + '\');">' + data.album.name + '</a>');
+        if (data.album.name.indexOf('Youtube') != -1) {
+            $("#modalalbum").html('<a href="http://www.youtube.com/watch?v=' + data.comment + '">' + data.album.name + '</a>');
+        } else {
+            $("#modalalbum").html('<a href="#" onclick="return showAlbum(\'' + data.album.uri + '\');">' + data.album.name + '</a>');
+        }
         getCover(artiststext, data.album, '#infocover, #controlspopupimage', 'extralarge');
     } else {
 	$("#modalalbum").html('');
