@@ -177,126 +177,127 @@ function renderSongLi(song, liID, uri, playlistType){
 }
 
 function resultsToTables(results, target, uri) {
-//console.log(results, target, uri);
-    if (!results) { return }
-    if (target == '#currenttable') {
-        playlistType = 'playTrackQueueByUri';
+  //console.log(results, target, uri);
+  if (!results) { return }
+  if (target == '#currenttable') {
+    playlistType = 'playTrackQueueByUri';
+  } else {
+    playlistType = 'playTrackByUri';
+  }
+
+  var newalbum = [];
+  var nextname = '';
+  var count = 0;
+  $(target).html('');
+
+  //break into albums and put in tables
+  var html = '';
+  var tableid, j, artistname, alburi, name, iconClass;
+  var targetmin = target.substr(1);
+  $(target).attr('data', uri);
+  var length = 0 || results.length;
+  for ( i = 0; i < length; i++) {
+    //create album if none extists
+    if (!results[i].album) { results[i].album={}; }
+    //create album uri if there is none
+    if (!results[i].album.uri) { results[i].album.uri = 'x'; }
+    if (!results[i].album.name) { results[i].album.name = ''; }
+    //create name if there is no one
+    if (!results[i].name || results[i].name == '') {
+      name = results[i].uri.split('/');
+      results[i].name = decodeURI(name[name.length - 1]) || 'Track ' + String(i);
+    }
+
+    //leave out unplayable items
+    if (results[i].name.substring(0,12) == '[unplayable]') continue;
+
+    newalbum.push(results[i]);
+    nextname = '';
+    if ((i < length - 1) && results[i+1].album && results[i+1].album.name ) {
+      nextname = results[i + 1].album.name;
+    }
+    if (results[i].length == -1) {
+      html += '<li class="albumli"><a href="#"><h1><i class="' + iconClass + '"></i> ' + results[i].name + ' [Stream]</h1></a></li>';
+      newalbum = [];
+      nextname = '';
     } else {
-        playlistType = 'playTrackByUri';
+      if ( (results[i].album.name != nextname) || (nextname == '') )  {
+        tableid = 'art' + i;
+        //render differently if only one track in the album
+        if ( newalbum.length == 1 ) {
+          if (i != 0) { html += '<li class="smalldivider"> &nbsp;</li>'; }
+          iconClass = getMediaClass(newalbum[0].uri);
+          track_length = newalbum[0].length || 0;
+          html += '<li class="song albumli" id="' + targetmin + '-' + newalbum[0].uri + '">' + 
+            '<a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[0].uri + '\');">' +
+            '<i class="fa fa-ellipsis-v"></i></a>' +
+            '<a href="#" onclick="return ' + playlistType + '(\'' + newalbum[0].uri + '\',\'' + uri + '\');">' +
+            '<h1 style="display: inline"><i class="' + iconClass + '"></i> ' + newalbum[0].name  + "</h1>" + 
+            '<span style="font-style: regular"> / ' + timeFromSeconds(track_length / 1000) + '</span>'+ "<p>"; 
+          if (newalbum[0].artists) {
+            for ( j = 0; j < newalbum[0].artists.length; j++) {
+              html += newalbum[0].artists[j].name;
+              html += (j == newalbum[0].artists.length - 1) ? '' : ' / ';
+              //stop after 3
+              if (j > 2) {
+                html += '...';
+                break;
+              }
+            }
+          }
+          if ( newalbum[0].album.name != '') { html += ' / ';}
+          html += '<em>' + newalbum[0].album.name + '</em></p>';
+          html += '</a></li>';
+
+          popupData[newalbum[0].uri] = newalbum[0];
+          newalbum = [];
+        } else {  //newalbum length
+          if ( results[i].album.uri && results[i].album.name ) {
+            //                    iconClass = getMediaClass(results[i].album.uri);
+            iconClass = getMediaClass(newalbum[0].uri);
+            html += '<li class="albumdivider">';
+            html += '<a href="#" onclick="return playPlaylistByUri(\'' + results[i].album.uri + '\');"><img id="' +
+              targetmin + '-cover-' + i + '" class="artistcover" width="30" height="30" src="' + results[0].album.images[0] +
+              '" /><h1><i class="' + iconClass + '"></i> ' + results[i].album.name + '</h1><p>';
+          }
+          if (results[i].album.artists) {
+            for (j = 0; j < results[i].album.artists.length; j++) {
+              html += results[i].album.artists[j].name;
+              html += (j == results[i].album.artists.length - 1) ? '' : ' / ';
+              //stop after 3
+              if (j > 2) {
+                child += '...';
+                break;
+              }
+            }
+          }
+          html += '</p></a></li>';
+          for (j = 0; j < newalbum.length; j++) {
+            popupData[newalbum[j].uri] = newalbum[j];
+            //                    html += '<li class="albumli" id="' + targetmin + '-' + newalbum[j].uri + '"><a href="#" onclick="return ' + popupMenu + '(event, \'' + uri + '\',\'' + newalbum[j].uri + '\');">';
+
+            //hERE!
+            var liID = targetmin + '-' + newalbum[j].uri;
+            html+= renderSongLi(newalbum[j], liID, uri, playlistType);
+            if (!customTracklists[newalbum[j].album.uri]) { customTracklists[newalbum[j].album.uri] = [];}
+            customTracklists[newalbum[j].album.uri].push(newalbum[j]);
+
+            //html += '<li class="albumli" id="' + targetmin + '-' + newalbum[j].uri + '"><a href="#" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[j].uri + '\');">';
+            //html += '<p class="pright">' + timeFromSeconds(newalbum[j].length / 1000) + '</p><h1>' + newalbum[j].name + '</h1></a></li>';
+          }
+          ;
+          artistname = results[i].artists[0].name;
+          getCover(artistname, results[i].album, target + '-cover-' + i, 'small');
+          //            customTracklists[results[i].album.uri] = newalbum;
+          newalbum = [];
+        } //newalbum length
+      } //albums name
     }
-
-    var newalbum = [];
-    var nextname = '';
-    var count = 0;
-    $(target).html('');
-
-    //break into albums and put in tables
-    var html = '';
-    var tableid, j, artistname, alburi, name, iconClass;
-    var targetmin = target.substr(1);
-    $(target).attr('data', uri);
-    var length = 0 || results.length;
-    for ( i = 0; i < length; i++) {
-	//create album if none extists
-	if (!results[i].album) { results[i].album={}; }
-	//create album uri if there is none
-	if (!results[i].album.uri) { results[i].album.uri = 'x'; }
-	if (!results[i].album.name) { results[i].album.name = ''; }
-	//create name if there is no one
-        if (!results[i].name || results[i].name == '') {
-		name = results[i].uri.split('/');
-		results[i].name = decodeURI(name[name.length - 1]) || 'Track ' + String(i);
-        }
-
-        //leave out unplayable items
-        if (results[i].name.substring(0,12) == '[unplayable]') continue;
-        
-        newalbum.push(results[i]);
-	nextname = '';
-        if ((i < length - 1) && results[i+1].album && results[i+1].album.name ) {
-            nextname = results[i + 1].album.name;
-        }
-        if (results[i].length == -1) {
-            html += '<li class="albumli"><a href="#"><h1><i class="' + iconClass + '"></i> ' + results[i].name + ' [Stream]</h1></a></li>';
-            newalbum = [];
-	    nextname = '';
-	} else {
-	  if ( (results[i].album.name != nextname) || (nextname == '') )  {
-            tableid = 'art' + i;
-            //render differently if only one track in the album
-            if ( newalbum.length == 1 ) {
-                if (i != 0) { html += '<li class="smalldivider"> &nbsp;</li>'; }
-                iconClass = getMediaClass(newalbum[0].uri);
-                html += '<li class="song albumli" id="' + targetmin + '-' + newalbum[0].uri + '">' + 
-		    '<a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[0].uri + '\');">' +
-		    '<i class="fa fa-ellipsis-v"></i></a>' +
-		    '<a href="#" onclick="return ' + playlistType + '(\'' + newalbum[0].uri + '\',\'' + uri + '\');">' +
-                    '<h1><i class="' + iconClass + '"></i> ' + newalbum[0].name + "</h1><p>";
-/*                 '<span style="float: right;">' + timeFromSeconds(newalbum[0].length / 1000) + '</span>'; */
-		if (newalbum[0].artists) {
-                    for ( j = 0; j < newalbum[0].artists.length; j++) {
-	                html += newalbum[0].artists[j].name;
-    	                html += (j == newalbum[0].artists.length - 1) ? '' : ' / ';
-        	        //stop after 3
-            	        if (j > 2) {
-                	    html += '...';
-                	    break;
-	                }
-    	            }
-		}
-                if ( newalbum[0].album.name != '') { html += ' / ';}
-		html += '<em>' + newalbum[0].album.name + '</em></p>';
-                html += '</a></li>';
-
-                popupData[newalbum[0].uri] = newalbum[0];
-                newalbum = [];
-            } else {  //newalbum length
-		if ( results[i].album.uri && results[i].album.name ) {
-//                    iconClass = getMediaClass(results[i].album.uri);
-                    iconClass = getMediaClass(newalbum[0].uri);
-                    html += '<li class="albumdivider">';
-	            html += '<a href="#" onclick="return playPlaylistByUri(\'' + results[i].album.uri + '\');"><img id="' +
-    	                targetmin + '-cover-' + i + '" class="artistcover" width="30" height="30" src="' + results[0].album.images[0] +
-                        '" /><h1><i class="' + iconClass + '"></i> ' + results[i].album.name + '</h1><p>';
-		}
-		if (results[i].album.artists) {
-                    for (j = 0; j < results[i].album.artists.length; j++) {
-	                html += results[i].album.artists[j].name;
-    		        html += (j == results[i].album.artists.length - 1) ? '' : ' / ';
-    	                //stop after 3
-            	        if (j > 2) {
-                	    child += '...';
-                    	    break;
-                        }
-	            }
-		}
-                html += '</p></a></li>';
-                for (j = 0; j < newalbum.length; j++) {
-                    popupData[newalbum[j].uri] = newalbum[j];
-//                    html += '<li class="albumli" id="' + targetmin + '-' + newalbum[j].uri + '"><a href="#" onclick="return ' + popupMenu + '(event, \'' + uri + '\',\'' + newalbum[j].uri + '\');">';
-
-                    //hERE!
-                    var liID = targetmin + '-' + newalbum[j].uri;
-                   html+= renderSongLi(newalbum[j], liID, uri, playlistType);
-                   if (!customTracklists[newalbum[j].album.uri]) { customTracklists[newalbum[j].album.uri] = [];}
-                   customTracklists[newalbum[j].album.uri].push(newalbum[j]);
-
-                    //html += '<li class="albumli" id="' + targetmin + '-' + newalbum[j].uri + '"><a href="#" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[j].uri + '\');">';
-                    //html += '<p class="pright">' + timeFromSeconds(newalbum[j].length / 1000) + '</p><h1>' + newalbum[j].name + '</h1></a></li>';
-                }
-                ;
-                artistname = results[i].artists[0].name;
-                getCover(artistname, results[i].album, target + '-cover-' + i, 'small');
-                //            customTracklists[results[i].album.uri] = newalbum;
-                newalbum = [];
-            } //newalbum length
-	  } //albums name
-        }
-    }
-//  console.log(html);
-    tableid = "#" + tableid;
-    $(target).html(html);
-    $(target).attr('data', uri);
+  }
+  //  console.log(html);
+  tableid = "#" + tableid;
+  $(target).html(html);
+  $(target).attr('data', uri);
 }
 
 //process updated playlist to gui
