@@ -598,15 +598,24 @@ input[type=text] {
 }
 
 .song-info {
+    margin-top: 5px;
     margin-left: 5px;
 }
 
-.albumcover {
-    margin: 5px;
-}
+/*.song {
+    height: 110px;
+}*/
 
+div.albumcover {
+    margin: 5px;
+    height: 90px;
+    width: 120px;
+    background-color: black;
+}
 .albumcover > img {
-    max-width: 100px;
-    max-height: 100px;
-    height: auto;
+    max-width: 120px;
+    height: 90px;
+   /* margin-top: 5px;
+    width: auto;
+    margin-bottom: 5px; */
 }
