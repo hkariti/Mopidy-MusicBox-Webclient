@@ -231,9 +231,13 @@ function resultsToTables(results, target, uri) {
           html += '<li class="song albumli" id="' + targetmin + '-' + newalbum[0].uri + '">' + 
             '<a href="#" class="moreBtn" onclick="return popupTracks(event, \'' + uri + '\',\'' + newalbum[0].uri + '\');">' +
             '<i class="fa fa-ellipsis-v"></i></a>' +
-            '<a href="#" onclick="return ' + playlistType + '(\'' + newalbum[0].uri + '\',\'' + uri + '\');">' +
-            '<h1 style="display: inline"><i class="' + iconClass + '"></i> ' + newalbum[0].name  + "</h1>" + 
-            '<span style="font-style: regular"> / ' + timeFromSeconds(track_length / 1000) + '</span>'+ "<p>"; 
+            '<a href="#" onclick="return ' + playlistType + '(\'' + newalbum[0].uri + '\',\'' + uri + '\');">';
+          if (newalbum[0].album && newalbum[0].album.images && newalbum[0].album.images.length > 0) {
+            html += '<div class="albumcover song-section"><img id="' +
+              targetmin + '-cover-' + i + '" style="max-width: 60px; max-height: 60px; height: auto" src="' + newalbum[0].album.images[0] +
+              '" /></div>';
+          }
+          html += '<div class="song-section song-info"><h1 style="display: inline"><i class="' + iconClass + '"></i> ' + newalbum[0].name  + '</h1><span style="font-style: regular"> / ' + timeFromSeconds(track_length / 1000) + '</span>'+ "<p>"; 
           if (newalbum[0].artists) {
             for ( j = 0; j < newalbum[0].artists.length; j++) {
               html += newalbum[0].artists[j].name;
@@ -246,7 +250,7 @@ function resultsToTables(results, target, uri) {
             }
           }
           if ( newalbum[0].album.name != '') { html += ' / ';}
-          html += '<em>' + newalbum[0].album.name + '</em></p>';
+          html += '<em>' + newalbum[0].album.name + '</em></p></div><div style="clear: both"></div>';
           html += '</a></li>';
 
           popupData[newalbum[0].uri] = newalbum[0];

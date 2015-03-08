@@ -592,3 +592,15 @@ input[type=text] {
 .mediaicon {
     float: right;
 }
+
+.song-section {
+    float: left;
+}
+
+.song-info {
+    margin-left: 5px;
+}
+
+.albumcover {
+    margin: 5px;
+}
