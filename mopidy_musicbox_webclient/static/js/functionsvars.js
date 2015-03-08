@@ -234,7 +234,7 @@ function resultsToTables(results, target, uri) {
             '<a href="#" onclick="return ' + playlistType + '(\'' + newalbum[0].uri + '\',\'' + uri + '\');">';
           if (newalbum[0].album && newalbum[0].album.images && newalbum[0].album.images.length > 0) {
             html += '<div class="albumcover song-section"><img id="' +
-              targetmin + '-cover-' + i + '" style="max-width: 60px; max-height: 60px; height: auto" src="' + newalbum[0].album.images[0] +
+              targetmin + '-cover-' + i + '" src="' + newalbum[0].album.images[0] +
               '" /></div>';
           }
           html += '<div class="song-section song-info"><h1 style="display: inline"><i class="' + iconClass + '"></i> ' + newalbum[0].name  + '</h1><span style="font-style: regular"> / ' + timeFromSeconds(track_length / 1000) + '</span>'+ "<p>"; 
