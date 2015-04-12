@@ -23,7 +23,7 @@ function resetSong() {
 function resizeMb() {
     $("#infoname").html(songdata.name);
     $("#infoartist").html(artiststext);
-    if (songdata.name) {
+    if (songdata.name && songdata.name.trim()) {
       document.title = songdata.name + "/" + artiststext + " - MusicBox";
     } else {
       document.title = "MusicBox";
