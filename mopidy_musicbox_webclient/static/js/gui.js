@@ -23,6 +23,11 @@ function resetSong() {
 function resizeMb() {
     $("#infoname").html(songdata.name);
     $("#infoartist").html(artiststext);
+    if (songdata.name) {
+      document.title = songdata.name + "/" + artiststext + " - MusicBox";
+    } else {
+      document.title = "MusicBox";
+    }
 
 //    //set height of playlist scrollers
 /*    if ($(window).width() > 960) {
@@ -76,12 +81,12 @@ function setSongInfo(data) {
     artiststext = '';
 
     if (validUri(data.name)) {
-        for (var key in radioStations) {
-	rs = radioStations[key];
-	if (rs && rs[1] == data.name) {
-	  data.name = (rs[0] || rs[1]);
-	}
-    };
+      for (var key in radioStations) {
+        rs = radioStations[key];
+        if (rs && rs[1] == data.name) {
+          data.name = (rs[0] || rs[1]);
+        }
+      };
     }
     
     songdata = data;
@@ -104,15 +109,15 @@ function setSongInfo(data) {
     var arttmp = '';
     
     if(data.artists) {
-	for (var j = 0; j < data.artists.length; j++) {
-    	    artistshtml += '<a href="#" onclick="return showArtist(\'' + data.artists[j].uri + '\');">' + data.artists[j].name + '</a>';
-    	    artiststext += data.artists[j].name;
-    	    if (j != data.artists.length - 1) {
-	        artistshtml += ', ';
-        	artiststext += ', ';
-	    }
-	}
-        arttmp = artistshtml;
+      for (var j = 0; j < data.artists.length; j++) {
+        artistshtml += '<a href="#" onclick="return showArtist(\'' + data.artists[j].uri + '\');">' + data.artists[j].name + '</a>';
+        artiststext += data.artists[j].name;
+        if (j != data.artists.length - 1) {
+          artistshtml += ', ';
+          artiststext += ', ';
+        }
+      }
+      arttmp = artistshtml;
     }
 
     if (data.album && data.album.name) {
