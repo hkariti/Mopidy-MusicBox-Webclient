@@ -290,7 +290,11 @@ function resultsToTables(results, target, uri) {
             //html += '<p class="pright">' + timeFromSeconds(newalbum[j].length / 1000) + '</p><h1>' + newalbum[j].name + '</h1></a></li>';
           }
           ;
-          artistname = results[i].artists[0].name;
+          if (results[0].artists) {
+            artistname = results[i].artists[0].name;
+          } else {
+            artistname = '';
+          }
           getCover(artistname, results[i].album, target + '-cover-' + i, 'small');
           //            customTracklists[results[i].album.uri] = newalbum;
           newalbum = [];
