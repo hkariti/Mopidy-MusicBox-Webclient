@@ -290,7 +290,7 @@ function resultsToTables(results, target, uri) {
             //html += '<p class="pright">' + timeFromSeconds(newalbum[j].length / 1000) + '</p><h1>' + newalbum[j].name + '</h1></a></li>';
           }
           ;
-          if (results[0].artists) {
+          if (results[i].artists) {
             artistname = results[i].artists[0].name;
           } else {
             artistname = '';
